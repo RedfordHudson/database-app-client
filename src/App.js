@@ -27,8 +27,8 @@ function App() {
 
 function callAPI() {
   // const URL = 'http://localhost:3001';
-  const URL = 'https://database-app-server.herokuapp.com/'
-  fetch(URL, { method: 'GET' })
+  const URL = 'https://database-app-server.herokuapp.com'
+  fetch(URL+'/resources', { method: 'GET' })
     .then(response => response.json())
     .then(json => alert(JSON.stringify(json)));
 }

@@ -5,15 +5,24 @@ export default class ResourcesList extends Component {
     constructor(props) {
         super(props);
 
+        this.getNames = this.getNames.bind(this);
         this.getResources = this.getResources.bind(this);
+        this.changeUsername = this.changeUsername.bind(this);
+        this.onSubmit = this.onSubmit.bind(this);
 
         this.state = {
-            resources:[]
+            URL:'https://database-app-server.herokuapp.com',
+            resources:[],
+            name: ''
         }
     }
 
     componentDidMount() {
-        axios.get('https://database-app-server.herokuapp.com/')
+        this.getNames();
+    }
+
+    getNames() {
+        axios.get(this.state.URL+'/resources')
             .then(response => {
                 this.setState({
                     resources:response.data.map(resource => resource.name)
@@ -29,9 +38,37 @@ export default class ResourcesList extends Component {
         })
     }
 
+    changeUsername(e) {
+        this.setState({
+            name:e.target.value
+        })
+    }
+
+    onSubmit(e) {
+        e.preventDefault();
+
+        const resource = {
+            name: this.state.name
+        }
+
+        console.log(resource);
+
+        axios.post(this.state.URL+'/resources/add',resource)
+            .then(() => {
+                this.getNames();
+            })
+    }
+
     render() {
         return (
-            <ul>{this.getResources()}</ul>
+            <div>
+                <ul>{this.getResources()}</ul>
+                <form onSubmit={this.onSubmit}>
+                    <input type='text'
+                        onChange={this.changeUsername} />
+                    <input type='submit'/>
+                </form>
+            </div>
         )
     }
 }
