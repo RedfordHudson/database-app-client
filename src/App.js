@@ -1,10 +1,12 @@
 import logo from './logo.svg';
 import './App.css';
+import ResourcesList from './components/resourceslist';
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
+        <ResourcesList />
         <button onClick={callAPI}>Fetch</button>
         <img src={logo} className="App-logo" alt="logo" />
         <p>
@@ -25,7 +27,6 @@ function App() {
 
 function callAPI() {
   // const URL = 'http://localhost:3001';
-  // const URL = 'https://database-app-server/herokuapp.com';
   const URL = 'https://database-app-server.herokuapp.com/'
   fetch(URL, { method: 'GET' })
     .then(response => response.json())
